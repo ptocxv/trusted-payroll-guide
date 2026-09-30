@@ -182,7 +182,7 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   {
     id: "uk-tpr-contributions",
     title: "The Pensions Regulator — Automatic enrolment contribution rates",
-    url: "https://www.thepensionsregulator.gov.uk/en/employers/managing-a-scheme/automatic-enrolment-contributions",
+    url: "https://www.thepensionsregulator.gov.uk/employers/new-employers/im-an-employer-who-has-to-provide-a-pension/choose-a-pension-scheme/understanding-your-costs/making-contributions-to-your-pension-scheme",
     country: "United Kingdom",
     topics: ["pension", "auto-enrolment", "workplace pension", "contributions"],
     authority: "official",
@@ -193,8 +193,8 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   },
   {
     id: "uk-gov-thresholds",
-    title: "GOV.UK — Automatic enrolment earnings thresholds 2025/26",
-    url: "https://www.gov.uk/government/publications/automatic-enrolment-earnings-trigger-and-qualifying-earnings-band-for-202526",
+    title: "The Pensions Regulator — Automatic enrolment earnings thresholds",
+    url: "https://www.thepensionsregulator.gov.uk/business-advisers/automatic-enrolment-guide-for-business-advisers/automatic-enrolment-earnings-threshold",
     country: "United Kingdom",
     topics: ["pension", "auto-enrolment", "earnings trigger", "qualifying earnings"],
     authority: "official",
