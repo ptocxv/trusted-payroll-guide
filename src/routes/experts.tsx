@@ -23,9 +23,9 @@ interface HandoffSearch {
 
 export const Route = createFileRoute("/experts")({
   validateSearch: (search: Record<string, unknown>): HandoffSearch => ({
-    question: typeof search.question === "string" ? search.question : undefined,
-    country: typeof search.country === "string" ? search.country : undefined,
-    draft: typeof search.draft === "string" ? search.draft : undefined,
+    question: typeof search["question"] === "string" ? search["question"] : undefined,
+    country: typeof search["country"] === "string" ? search["country"] : undefined,
+    draft: typeof search["draft"] === "string" ? search["draft"] : undefined,
   }),
   head: () => ({
     meta: [
