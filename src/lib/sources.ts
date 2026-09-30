@@ -177,9 +177,47 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
     summary:
       "EU social security coordination rules (Regulation 883/2004) determining which country's system applies.",
   },
+
+  // United Kingdom
+  {
+    id: "uk-tpr-contributions",
+    title: "The Pensions Regulator — Automatic enrolment contribution rates",
+    url: "https://www.thepensionsregulator.gov.uk/en/employers/managing-a-scheme/automatic-enrolment-contributions",
+    country: "United Kingdom",
+    topics: ["pension", "auto-enrolment", "workplace pension", "contributions"],
+    authority: "official",
+    publishedDate: "2025-04-06",
+    lastVerified: "2026-09-20",
+    summary:
+      "Minimum auto-enrolment contributions (unchanged since April 2019, apply for 2025/26): total 8% of qualifying earnings — employer at least 3%, employee pays the remaining 5% (4% net + 1% tax relief under relief at source). Employer may pay more to reduce the employee share.",
+  },
+  {
+    id: "uk-gov-thresholds",
+    title: "GOV.UK — Automatic enrolment earnings thresholds 2025/26",
+    url: "https://www.gov.uk/government/publications/automatic-enrolment-earnings-trigger-and-qualifying-earnings-band-for-202526",
+    country: "United Kingdom",
+    topics: ["pension", "auto-enrolment", "earnings trigger", "qualifying earnings"],
+    authority: "official",
+    publishedDate: "2025-01-30",
+    lastVerified: "2026-09-20",
+    summary:
+      "2025/26 tax year (6 Apr 2025–5 Apr 2026): earnings trigger £10,000/yr; qualifying earnings band £6,240 to £50,270/yr. Contributions are calculated on earnings within this band (unless the scheme uses total pay).",
+  },
+  {
+    id: "uk-gov-workplace-pensions",
+    title: "GOV.UK — Workplace pensions: what you, your employer and the government pay",
+    url: "https://www.gov.uk/workplace-pensions/what-you-your-employer-and-the-government-pay",
+    country: "United Kingdom",
+    topics: ["pension", "workplace pension", "tax relief"],
+    authority: "government_portal",
+    publishedDate: "2025-04-06",
+    lastVerified: "2026-09-20",
+    summary:
+      "Plain-language overview: minimum 8% total, of which employer pays at least 3%; includes government tax relief.",
+  },
 ];
 
-export const COUNTRIES = ["Belgium", "Netherlands", "France"] as const;
+export const COUNTRIES = ["Belgium", "Netherlands", "France", "United Kingdom"] as const;
 
 export function sourcesForCountry(country: string): PayrollSource[] {
   return PAYROLL_SOURCES.filter((s) => s.country === country || s.country === "EU");
