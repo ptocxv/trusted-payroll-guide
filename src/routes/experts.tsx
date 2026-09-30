@@ -16,9 +16,9 @@ interface Expert {
 }
 
 interface HandoffSearch {
-  question?: string;
-  country?: string;
-  draft?: string;
+  question?: string | undefined;
+  country?: string | undefined;
+  draft?: string | undefined;
 }
 
 export const Route = createFileRoute("/experts")({
