@@ -1,13 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createOpenAI } from "@ai-sdk/openai";
-import { streamText } from "ai";
 import { z } from "zod";
 
 import { sourcesForCountry } from "../../lib/sources";
-import {
-  createLovableAiGatewayRunIdFetch,
-  getLovableAiGatewayRunId,
-} from "../../lib/ai/run-id";
 
 const requestSchema = z.object({
   question: z.string().min(5).max(2000),
@@ -49,6 +43,44 @@ Respond with ONLY a JSON object matching this exact shape (no markdown fences):
   ]
 }`;
 
+/** Consume the gateway SSE stream and accumulate the output text. */
+async function readOutputText(body: ReadableStream<Uint8Array>, signal: AbortSignal): Promise<string> {
+  const reader = body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let output = "";
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const frames = buffer.split("\n\n");
+      buffer = frames.pop() ?? "";
+      for (const frame of frames) {
+        for (const line of frame.split("\n")) {
+          if (!line.startsWith("data:")) continue;
+          const payload = line.slice(5).trim();
+          if (!payload || payload === "[DONE]") continue;
+          try {
+            const event = JSON.parse(payload);
+            if (event.type === "response.output_text.delta" && typeof event.delta === "string") {
+              output += event.delta;
+            }
+          } catch {
+            // incomplete frame fragment — ignore
+          }
+        }
+      }
+    }
+  } finally {
+    if (signal.aborted) {
+      await reader.cancel().catch(() => {});
+    }
+    reader.releaseLock();
+  }
+  return output;
+}
+
 export const Route = createFileRoute("/api/ask")({
   server: {
     handlers: {
@@ -86,34 +118,50 @@ export const Route = createFileRoute("/api/ask")({
           .filter(Boolean)
           .join("\n");
 
-        const runIdFetch = createLovableAiGatewayRunIdFetch(getLovableAiGatewayRunId(request));
-        const provider = createOpenAI({
-          baseURL: "https://ai.gateway.lovable.dev/v1",
-          apiKey,
-          headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
-          fetch: runIdFetch.fetch,
-        });
-
         try {
-          const result = streamText({
-            model: provider.responses("openai/gpt-6-astra"),
-            messages: [
-              { role: "system", content: SYSTEM_PROMPT },
-              { role: "user", content: userPrompt },
-            ],
-            abortSignal: request.signal,
-            providerOptions: {
-              openai: {
-                store: false,
-                forceReasoning: true,
-                reasoningEffort: "medium",
-                reasoningSummary: "auto",
-                include: ["reasoning.encrypted_content"],
-              },
+          const gatewayResponse = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+              "Lovable-API-Key": apiKey,
+              "Content-Type": "application/json",
+              "X-Lovable-AIG-SDK": "fetch",
             },
+            body: JSON.stringify({
+              model: "openai/gpt-6-astra",
+              store: false,
+              stream: true,
+              reasoning: { effort: "low" },
+              input: [
+                {
+                  role: "system",
+                  content: [{ type: "input_text", text: SYSTEM_PROMPT }],
+                },
+                {
+                  role: "user",
+                  content: [{ type: "input_text", text: userPrompt }],
+                },
+              ],
+            }),
+            signal: request.signal,
           });
 
-          const text = await result.text;
+          if (!gatewayResponse.ok || !gatewayResponse.body) {
+            const detail = await gatewayResponse.text().catch(() => "");
+            console.error("Gateway error", gatewayResponse.status, detail.slice(0, 500));
+            if (gatewayResponse.status === 429 || gatewayResponse.status >= 500) {
+              return Response.json(
+                { error: "The answer engine is busy. Please try again in a moment." },
+                { status: 503 },
+              );
+            }
+            return Response.json(
+              { error: "The answer engine could not complete this request." },
+              { status: 502 },
+            );
+          }
+
+          const text = await readOutputText(gatewayResponse.body, request.signal);
           const cleaned = text
             .trim()
             .replace(/^```(?:json)?\s*/i, "")
