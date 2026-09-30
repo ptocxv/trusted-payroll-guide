@@ -28,7 +28,7 @@ Rules:
 
 Respond with ONLY a JSON object matching this exact shape (no markdown fences):
 {
-  "answer": "string — max ~90 words: a one-sentence direct answer, then up to 3 short key points each on its own line starting with '- ', then one line 'Verify: ...' naming what to check in the official source",
+  "answer": "string — max ~90 words: a one-sentence direct answer containing the exact figure/rate/threshold, then up to 3 short key points each on its own line starting with '- ' (each with concrete numbers or conditions, no generalities), then one line 'Verify: ...' naming what to check in the official source",
   "confidence": "high" | "medium" | "low",
   "insufficient": boolean,
   "suggestedExpertSpecialty": "string or null — the specialty to route to when insufficient or confidence is low",
