@@ -33,7 +33,7 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   {
     id: "be-fod-finance",
     title: "FPS Finance — Withholding tax on professional income",
-    url: "https://finance.belgium.be/en/enterprises/withholding-tax",
+    url: "https://finances.belgium.be/fr/entreprises/personnel_et_remuneration/precompte_professionnel",
     country: "Belgium",
     topics: ["withholding tax", "bedrijfsvoorheffing", "tax"],
     authority: "official",
@@ -45,7 +45,7 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   {
     id: "be-holiday-pay",
     title: "RJV/ONVA — Holiday pay for employees",
-    url: "https://www.rjv-onva.fgov.be/",
+    url: "https://www.rjv-onva.fgov.be/en",
     country: "Belgium",
     topics: ["holiday pay", "vacation", "annual leave"],
     authority: "official",
@@ -94,7 +94,7 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   {
     id: "nl-minimum-wage",
     title: "Government.nl — Minimum wage",
-    url: "https://www.government.nl/topics/minimum-wage",
+    url: "https://www.government.nl/themes/work/minimum-wage",
     country: "Netherlands",
     topics: ["minimum wage", "WML"],
     authority: "government_portal",
@@ -119,7 +119,7 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   {
     id: "fr-urssaf",
     title: "Urssaf — Employer social contributions",
-    url: "https://www.urssaf.fr/",
+    url: "https://www.urssaf.fr/accueil/outils-documentation/taux-baremes/taux-cotisations-secteur-prive.html",
     country: "France",
     topics: ["social charges", "cotisations", "contributions"],
     authority: "official",
@@ -131,7 +131,7 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   {
     id: "fr-service-public-smic",
     title: "Service-Public — SMIC minimum wage",
-    url: "https://www.service-public.fr/particuliers/vosdroits/F2300",
+    url: "https://www.service-public.gouv.fr/particuliers/vosdroits/F2300",
     country: "France",
     topics: ["minimum wage", "SMIC"],
     authority: "official",
@@ -143,7 +143,7 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   {
     id: "fr-dsn",
     title: "net-entreprises — DSN (Déclaration Sociale Nominative)",
-    url: "https://www.net-entreprises.fr/dsn/",
+    url: "https://www.net-entreprises.fr/declaration/dsn-info/",
     country: "France",
     topics: ["DSN", "reporting", "declarations"],
     authority: "official",
@@ -154,8 +154,8 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   },
   {
     id: "fr-conventions",
-    title: "Légifrance — Collective agreements",
-    url: "https://www.legifrance.gouv.fr/",
+    title: "Code du travail numérique — Find the collective agreement",
+    url: "https://code.travail.gouv.fr/outils/convention-collective",
     country: "France",
     topics: ["collective agreements", "conventions collectives", "paid leave"],
     authority: "government_portal",
@@ -168,7 +168,7 @@ export const PAYROLL_SOURCES: PayrollSource[] = [
   {
     id: "eu-a1",
     title: "European Commission — Posted workers and A1 certificates",
-    url: "https://ec.europa.eu/social/main.jsp?catId=471",
+    url: "https://employment-social-affairs.ec.europa.eu/policies-and-activities/moving-working-europe/working-another-eu-country/posted-workers_en",
     country: "EU",
     topics: ["A1", "posted workers", "cross-border", "tax treaties"],
     authority: "official",

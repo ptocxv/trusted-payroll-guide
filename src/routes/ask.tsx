@@ -228,10 +228,31 @@ function AskPage() {
                 {result.confidence} confidence
               </span>
             </div>
-            <div className="mt-4 space-y-3 text-sm leading-relaxed text-card-foreground">
-              {result.answer.split(/\n{2,}/).map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
+            <div className="mt-4 space-y-2 text-sm leading-relaxed text-card-foreground">
+              {(() => {
+                const lines = result.answer.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+                const bullets = lines.filter((l) => /^[-•]\s/.test(l));
+                const rest = lines.filter((l) => !/^[-•]\s/.test(l));
+                const verify = rest.filter((l) => /^verify:/i.test(l));
+                const lead = rest.filter((l) => !/^verify:/i.test(l));
+                return (
+                  <>
+                    {lead.map((l, i) => (
+                      <p key={i} className={i === 0 ? "text-base font-medium" : ""}>{l}</p>
+                    ))}
+                    {bullets.length > 0 && (
+                      <ul className="list-disc space-y-1 pl-5">
+                        {bullets.map((b, i) => (
+                          <li key={i}>{b.replace(/^[-•]\s/, "")}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {verify.map((v, i) => (
+                      <p key={i} className="text-xs text-muted-foreground">{v}</p>
+                    ))}
+                  </>
+                );
+              })()}
             </div>
           </section>
 
