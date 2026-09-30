@@ -1,4 +1,4 @@
-# Payroll Compass
+# Payroll Passport
 
 Payroll Passport is a trusted knowledge assistant for payroll consultants. It does not simply search documents or generate an answer. It determines which information is reliable and applicable to a specific client, country, employee context and date.
 
