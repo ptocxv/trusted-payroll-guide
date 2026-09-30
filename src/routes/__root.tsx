@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { ShieldCheck } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -77,21 +78,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Payroll Passport — Trusted payroll knowledge, verified" },
+      {
+        name: "description",
+        content:
+          "Payroll Passport helps payroll consultants answer clients faster with traceable sources, expert validation and reusable organisational knowledge.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -114,13 +118,65 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+const NAV_LINKS = [
+  { to: "/ask", label: "Ask" },
+  { to: "/experts", label: "Experts" },
+  { to: "/knowledge", label: "Knowledge base" },
+] as const;
+
+function Header() {
+  return (
+    <header className="sticky top-0 z-40 border-b border-border bg-navy text-navy-foreground">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+        <Link to="/" className="flex items-center gap-2 font-semibold">
+          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+            <ShieldCheck className="h-4.5 w-4.5 text-primary-foreground" />
+          </span>
+          <span className="text-base tracking-tight">Payroll Passport</span>
+        </Link>
+        <nav className="flex items-center gap-1 text-sm">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className="rounded-md px-3 py-1.5 text-navy-foreground/80 transition-colors hover:bg-navy-foreground/10 hover:text-navy-foreground"
+              activeProps={{ className: "bg-navy-foreground/15 text-navy-foreground" }}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border bg-secondary py-8">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 text-center text-sm text-muted-foreground">
+        <p className="font-medium text-foreground">Payroll Passport</p>
+        <p>
+          We are not replacing payroll experts with AI. We are making payroll expertise traceable,
+          verifiable and reusable.
+        </p>
+      </div>
+    </footer>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </QueryClientProvider>
   );
 }
