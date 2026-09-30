@@ -70,7 +70,7 @@ function KnowledgePage() {
         if (fetchError) {
           setError("Could not load the knowledge base.");
         } else {
-          setEntries((data as KnowledgeEntry[]) ?? []);
+          setEntries((data as unknown as KnowledgeEntry[]) ?? []);
         }
         setLoading(false);
       });
@@ -114,7 +114,7 @@ function KnowledgePage() {
       setError("The entry could not be saved. Please try again.");
       return;
     }
-    setEntries((prev) => [data as KnowledgeEntry, ...prev]);
+    setEntries((prev) => [data as unknown as KnowledgeEntry, ...prev]);
     setShowForm(false);
     setForm({ question: "", answer: "", country: "Belgium", topic: "", validatedBy: "" });
   }
