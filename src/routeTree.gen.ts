@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AskRouteImport } from './routes/ask'
+import { Route as ExpertsRouteImport } from './routes/experts'
+import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as ApiAskRouteImport } from './routes/api/ask'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +25,16 @@ const AskRoute = AskRouteImport.update({
   path: '/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExpertsRoute = ExpertsRouteImport.update({
+  id: '/experts',
+  path: '/experts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeRoute = KnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAskRoute = ApiAskRouteImport.update({
   id: '/api/ask',
   path: '/api/ask',
@@ -32,30 +44,38 @@ const ApiAskRoute = ApiAskRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/experts': typeof ExpertsRoute
+  '/knowledge': typeof KnowledgeRoute
   '/api/ask': typeof ApiAskRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/experts': typeof ExpertsRoute
+  '/knowledge': typeof KnowledgeRoute
   '/api/ask': typeof ApiAskRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/experts': typeof ExpertsRoute
+  '/knowledge': typeof KnowledgeRoute
   '/api/ask': typeof ApiAskRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ask' | '/api/ask'
+  fullPaths: '/' | '/ask' | '/experts' | '/knowledge' | '/api/ask'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ask' | '/api/ask'
-  id: '__root__' | '/' | '/ask' | '/api/ask'
+  to: '/' | '/ask' | '/experts' | '/knowledge' | '/api/ask'
+  id: '__root__' | '/' | '/ask' | '/experts' | '/knowledge' | '/api/ask'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AskRoute: typeof AskRoute
+  ExpertsRoute: typeof ExpertsRoute
+  KnowledgeRoute: typeof KnowledgeRoute
   ApiAskRoute: typeof ApiAskRoute
 }
 
@@ -75,6 +95,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/experts': {
+      id: '/experts'
+      path: '/experts'
+      fullPath: '/experts'
+      preLoaderRoute: typeof ExpertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge': {
+      id: '/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/ask': {
       id: '/api/ask'
       path: '/api/ask'
@@ -88,6 +122,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AskRoute: AskRoute,
+  ExpertsRoute: ExpertsRoute,
+  KnowledgeRoute: KnowledgeRoute,
   ApiAskRoute: ApiAskRoute,
 }
 export const routeTree = rootRouteImport
